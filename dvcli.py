@@ -43,5 +43,6 @@ def main(args):
     # Run function assigned to option
     args_list[selection]["run_"]()
 
+
 if __name__ == "__main__":
     main(sys.argv)

@@ -7,9 +7,10 @@ from my_exceptions import *
 #   owner     REQUIRED     STRING      Username of the resource owner
 # Usage:
 #   onboard_user("medovicn")
+
+
 def onboard_user(user):
     if path.isdir(f"./{owner}"):
         raise OwnerAlreadyOnboardedError(owner)
     else:
         makedirs(f"./{owner}")
-        

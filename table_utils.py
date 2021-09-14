@@ -14,8 +14,8 @@ from my_exceptions import *
 #   types     OPTIONAL     LIST        Types of each column.  From
 #                                      data_utils.py:get_types()
 # Usage:
-#   create_table("medovicn", "test_real_data", 
-#       ["name","age","sex","occupation"], 
+#   create_table("medovicn", "test_real_data",
+#       ["name","age","sex","occupation"],
 #       types=["TEXT","INTEGER","TEXT","TEXT"])
 def create_table(owner, tablename, headers, **args):
     if path.isdir(f"./{owner}"):

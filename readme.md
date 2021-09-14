@@ -12,7 +12,7 @@ The idea is to provide **graphing, plotting, tables**, and other visual display 
 > python dvcli.py
 ```
 
-### CLI Example###
+### CLI Example ###
 
 ```
 # [ 1 ] Onboard New User

@@ -14,15 +14,17 @@ from csv import reader
 #   returnDict["data"]          = [[col1, col2, col3, col4],
 #                                  [ro11, ro12, ro13, ro14],
 #                                  [ro21, ro22, ro23, ro24]]
+
+
 def get_data_from_csv(filename, **args):
     # This may be expanded to include other types
     acceptable_filetypes = ["csv", "txt"]
     file_appension = filename.split(".")[-1]
     # Unit tests will fail if this raises an error
     if file_appension not in acceptable_filetypes:
-        raise ValueError("Invalid filetype.  Supported: ", 
-            acceptable_filetypes, 
-            "Entered: ", file_appension)
+        raise ValueError("Invalid filetype.  Supported: ",
+                         acceptable_filetypes,
+                         "Entered: ", file_appension)
     # Optional argument, but the value is necessary
     # Defaults to False
     preserve_headers = False

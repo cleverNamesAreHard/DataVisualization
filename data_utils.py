@@ -22,9 +22,9 @@ def get_data_from_csv(filename, **args):
     file_appension = filename.split(".")[-1]
     # Unit tests will fail if this raises an error
     if file_appension not in acceptable_filetypes:
-        raise ValueError("Invalid filetype.  Supported: ", 
-            acceptable_filetypes, 
-            "Entered: ", file_appension)
+        raise ValueError("Invalid filetype.  Supported: ",
+                         acceptable_filetypes,
+                         "Entered: ", file_appension)
     # Optional argument, but the value is necessary
     # Defaults to False
     preserve_headers = False
@@ -79,6 +79,8 @@ def get_data_from_csv(filename, **args):
 #   types = get_types(["nick", 24, "male", "data analyst"])
 # Returns:
 #   types = ["TEXT", "INTEGER", "TEXT", "TEXT"]
+
+
 def get_types(values):
     types_out = []
     for value_ in values:
@@ -99,11 +101,11 @@ def get_types(values):
             continue
         # We're only allowing these for now
         if type(t) in [int, float, bool]:
-            if t in set((True,False)):
+            if t in set((True, False)):
                 this_type = "BOOLEAN"
-            if type(t) is int or type(t) is long:
+            if isinstance(t, int):
                 this_type = "INTEGER"
-            if type(t) is float:
+            if isinstance(t, float):
                 this_type = "DECIMAL"
         # Otherwise, we force it to String
         else:
