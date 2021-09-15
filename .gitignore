@@ -1,4 +1,7 @@
 __pycache__/
 medovicn/
-testUser/
-testUser1/
+testuser/
+testuserone/
+tetsuo/
+.*
+

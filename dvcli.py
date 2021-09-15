@@ -13,11 +13,11 @@ def main(args):
     args_list = {
         1: {
             "text": "Onboard New User",
-            "run_": user_utils.onboard_user
+            "run_": user_utils.onboard_user_cli
         },
         2: {
             "text": "Create New Table",
-            "run_": table_utils.create_table
+            "run_": table_utils.create_table_cli
         }
     }
     # Display option list and put indeces into their list
