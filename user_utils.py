@@ -10,7 +10,7 @@ from my_exceptions import *
 
 
 def onboard_user(user):
-    if path.isdir(f"./{owner}"):
-        raise OwnerAlreadyOnboardedError(owner)
+    if path.isdir(f"./{user}"):
+        raise OwnerAlreadyOnboardedError(user)
     else:
-        makedirs(f"./{owner}")
+        makedirs(f"./{user}")
