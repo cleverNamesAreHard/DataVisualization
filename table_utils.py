@@ -78,7 +78,7 @@ def create_table(owner, tablename, headers, **args):
 
 
 def tablename_is_valid(tablename):
-    allowable_chars = set("abcdefghijklmnopqrstuvqxyz_")
+    allowable_chars = set("abcdefghijklmnopqrstuvwxyz_")
     return set(tablename) <= allowable_chars
 
 # Description:
@@ -110,7 +110,7 @@ def create_table_cli(**args):
         raise TableAlreadyExistsError(tablename)
     pass
 
-
+    
 '''
     TODO:
         Write in header import by file and by typing (first)

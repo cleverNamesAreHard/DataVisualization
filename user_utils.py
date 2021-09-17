@@ -30,7 +30,7 @@ def onboard_user(user):
 
 
 def user_is_valid(user):
-    allowable_chars = set("abcdefghijklmnopqrstuvqxyz")
+    allowable_chars = set("abcdefghijklmnopqrstuvwxyz")
     return set(user) <= allowable_chars
 
 # Description:
