@@ -18,11 +18,11 @@ class MyTest(unittest.TestCase):
     # Check if checks for potentially empty data files work
     def test_file_contents_errors(self):
         self.assertRaises(Exception, data_utils.get_data_from_csv,
-                          "test_empty_file.csv")
+                          "sample_data/test_empty_file.csv")
         self.assertRaises(Exception, data_utils.get_data_from_csv,
-                          "test_headers_only.csv")
+                          "sample_data/test_headers_only.csv")
         self.assertRaises(Exception, data_utils.get_data_from_csv,
-                          "test_headers_only.csv", preserve_headers=True)
+                          "sample_data/test_headers_only.csv", preserve_headers=True)
 
     # Check if erroring on owner not onboarded is successful
     def test_not_onboarded_fails_table_creation(self):
