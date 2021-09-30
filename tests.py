@@ -71,51 +71,115 @@ class MyTest(unittest.TestCase):
         self.assertRaises(OwnerNameInvalidError,
                           table_utils.create_table_cli,
                           testUser="AbraCadabra",
-                          testTable="abc")
+                          testTable="abc.def",
+                          headers="a,b",
+                          types=["TEXT", "DECIMAL"])
         self.assertRaises(OwnerNameInvalidError,
                           table_utils.create_table_cli,
                           testUser="phoenix0912",
-                          testTable="zyxwvut")
+                          testTable="zyxwvutHJSDG",
+                          headers="a,b",
+                          types=["TEXT", "DECIMAL"])
         self.assertRaises(OwnerNameInvalidError,
                           table_utils.create_table_cli,
                           testUser="1337h@x0r@amazon.com",
-                          testTable="validtablename")
+                          testTable="validt>ablename",
+                          headers="a,b",
+                          types=["TEXT", "DECIMAL"])
         self.assertRaises(TableNameInvalidError,
                           table_utils.create_table_cli,
                           testUser="medovicn",
-                          testTable="in_validtablename1")
+                          testTable="in_validtablename1.t1",
+                          headers="a,b",
+                          types=["TEXT", "DECIMAL"])
         self.assertRaises(TableNameInvalidError,
                           table_utils.create_table_cli,
                           testUser="testuser",
-                          testTable="another-badname.whatever\\okay")
+                          testTable="another-badname.whatever\\okay",
+                          headers="a,b",
+                          types=["TEXT", "DECIMAL"])
         self.assertRaises(TableNameInvalidError,
                           table_utils.create_table_cli,
                           testUser="testuserone",
-                          testTable="tablename1")
+                          testTable="tablename1_x>ty",
+                          headers="a,b",
+                          types=["TEXT", "DECIMAL"])
 
     # Check if table existing and owner not-onboarded fails table creation
     def test_badowner_tableexists_create_table_cli(self):
         self.assertRaises(OwnerNotOnboardedError,
                           table_utils.create_table_cli,
                           testUser="validname",
-                          testTable="tablename")
+                          testTable="tablename",
+                          headers="a,b",
+                          types=["TEXT", "DECIMAL"])
         self.assertRaises(OwnerNotOnboardedError,
                           table_utils.create_table_cli,
                           testUser="jessicaday",
-                          testTable="abcdefg")
+                          testTable="abcdefg",
+                          headers="a,b",
+                          types=["TEXT", "DECIMAL"])
         self.assertRaises(OwnerNotOnboardedError,
                           table_utils.create_table_cli,
                           testUser="nickmiller",
-                          testTable="kapowy")
+                          testTable="kapowy",
+                          headers="a,b",
+                          types=["TEXT", "DECIMAL"])
         self.assertRaises(TableAlreadyExistsError,
                           table_utils.create_table_cli,
                           testUser="testuser",
-                          testTable="test_table")
+                          testTable="test_table",
+                          headers="a,b",
+                          types=["TEXT", "DECIMAL"])
         self.assertRaises(TableAlreadyExistsError,
                           table_utils.create_table_cli,
                           testUser="testuserone",
-                          testTable="testtable")
+                          testTable="testtable",
+                          headers="a,b",
+                          types=["TEXT", "DECIMAL"])
 
+
+    def test_headers_not_csv_fails(self):
+        self.assertRaises(HeadersNotCSVError,
+                          table_utils.create_table_cli,
+                          testUser="testuser",
+                          testTable="not_real_table",
+                          headers="name.age.sex")
+        self.assertRaises(HeadersNotCSVError,
+                          table_utils.create_table_cli,
+                          testUser="testuser",
+                          testTable="fake_table_table",
+                          headers="1header")
+
+
+    def test_headers_invalid_types_fail(self):
+        self.assertRaises(InvalidTypeError,
+                          table_utils.create_table_cli,
+                          testUser="testuser",
+                          testTable="what_even_is_python",
+                          headers="name,age,weight,test",
+                          types=["text","integer","float", "char"])
+        self.assertRaises(InvalidTypeError,
+                          table_utils.create_table_cli,
+                          testUser="testuser",
+                          testTable="why_not_java",
+                          headers="name,age,weight,test",
+                          types=["text","integer","decimal", "float"])
+
+
+    def test_assymetrical_types_headers_fails(self):
+        self.assertRaises(TypesAssymetricalError,
+                          table_utils.create_table_cli,
+                          testUser="testuser",
+                          testTable="oh_im_not_a_pleb",
+                          headers="name,age",
+                          types=["text","integer","decimal"])
+        self.assertRaises(TypesAssymetricalError,
+                          table_utils.create_table_cli,
+                          testUser="testuser",
+                          testTable="obviously_best_language",
+                          headers="name,age,sex",
+                          types=["text","integer"])
 
 def main():
     print("Starting unit tests\n")

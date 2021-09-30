@@ -8,14 +8,12 @@ import user_utils
 #   owner     REQUIRED    STRING    Username of the resource owner
 #   tablename REQUIRED    STRING    Name of the table to look up
 # Usage:
-#   a = user_is_onboarde("dev1", "table1")
+#   a = user_is_onboarded("dev1", "table1")
 #   b = user_is_valid("dev2", "table2")
 #   a
 #   > True
 #   b
 #   > False
-
-
 def table_exists(owner, tablename):
     if path.isdir(f"./{owner}/{tablename}"):
         return True
@@ -78,18 +76,20 @@ def create_table(owner, tablename, headers, **args):
 
 
 def tablename_is_valid(tablename):
-    allowable_chars = set("abcdefghijklmnopqrstuvwxyz_")
-    return set(tablename) <= allowable_chars
+    allowable_chars_s = "abcdefghijklmnopqrstuvwxyz_"
+    allowable_chars = [char_ for char_ in allowable_chars_s]
+    for char_ in tablename:
+        if char_ not in allowable_chars:
+            return False
+    return True
 
 # Description:
 #   VOID, used to get and sanitize user input via CLI, and pass to
 #   create_table()
-
-
 def create_table_cli(**args):
+    # Get User from Args or from Input
     user = ""
     if "testUser" not in args:
-        print(args)
         user = input("Please enter the owner to onboard to:\n> ")
         user = user.lower()
     else:
@@ -98,6 +98,7 @@ def create_table_cli(**args):
         raise OwnerNameInvalidError(user)
     if not user_utils.user_is_onboarded(user):
         raise OwnerNotOnboardedError(user)
+    # Get Table name from Args or from Input
     tablename = ""
     if "testTable" not in args:
         tablename = input("Please enter the tablename to create:\n> ")
@@ -108,7 +109,41 @@ def create_table_cli(**args):
         raise TableNameInvalidError(tablename)
     if table_exists(user, tablename):
         raise TableAlreadyExistsError(tablename)
-    pass
+    # Get Headers from Args or from Input, and sanitize
+    headers = []
+    headers_s = ""
+    if "headers" in args:
+        headers_s = args["headers"]
+    else:
+        headers_s = input("Please enter your comma-separated headers:\n> ")
+    if len(headers_s.split(",")) == 1:
+        raise HeadersNotCSVError(headers_s)
+    else:
+         headers = headers_s.split(",")
+    # Get types from Args or from Input, and sanitize
+    types = []
+    for header in headers:
+        valid_types = ["TEXT", "BOOLEAN", "INTEGER", "DECIMAL"]
+        type_s = ", ".join(type_x for type_x in valid_types)
+        if "types" in args:
+            types = args["types"]
+            for type_ in types:
+                if type_.upper() not in valid_types:
+                    raise InvalidTypeError(type_.upper())
+        else:
+            print(f"\nValid types are {type_s}")
+            type_ = input("Please enter the type for the following header:\n" \
+                f"{header} > ")
+            if type_.upper() in valid_types:
+                types.append(type_.upper())
+            else:
+                raise InvalidTypeError(type_.upper())
+    if len(types) == len(headers):
+        create_table(user, tablename, headers, types=types)
+    else:
+        raise TypesAssymetricalError(len(types), len(headers))
+
+
 
     
 '''
