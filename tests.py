@@ -180,6 +180,12 @@ class MyTest(unittest.TestCase):
                           testTable="obviously_best_language",
                           headers="name,age,sex",
                           types=["text","integer"])
+'''
+    def test_load_table(self):
+        self.assertRaises(TimeNotEpochError,
+                          table_utils.load_table,
+
+                            )'''
 
 def main():
     print("Starting unit tests\n")

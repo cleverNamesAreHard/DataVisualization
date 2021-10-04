@@ -1,6 +1,8 @@
 from os import path, makedirs
 from my_exceptions import *
+import time
 import user_utils
+import data_utils
 
 # Description:
 #   BOOLEAN, returns whether or not a table exists in the user's folder
@@ -35,8 +37,6 @@ def table_exists(owner, tablename):
 #   create_table("medovicn", "test_real_data",
 #       ["name","age","sex","occupation"],
 #       types=["TEXT","INTEGER","TEXT","TEXT"])
-
-
 def create_table(owner, tablename, headers, **args):
     if user_utils.user_is_onboarded(owner):
         if table_exists(owner, tablename):
@@ -73,8 +73,6 @@ def create_table(owner, tablename, headers, **args):
 #   > False
 #   b
 #   > True
-
-
 def tablename_is_valid(tablename):
     allowable_chars_s = "abcdefghijklmnopqrstuvwxyz_"
     allowable_chars = [char_ for char_ in allowable_chars_s]
@@ -120,6 +118,7 @@ def create_table_cli(**args):
         raise HeadersNotCSVError(headers_s)
     else:
          headers = headers_s.split(",")
+    headers.append("snapshot")
     # Get types from Args or from Input, and sanitize
     types = []
     for header in headers:
@@ -138,15 +137,53 @@ def create_table_cli(**args):
                 types.append(type_.upper())
             else:
                 raise InvalidTypeError(type_.upper())
+    types.append("INTEGER")
     if len(types) == len(headers):
         create_table(user, tablename, headers, types=types)
     else:
         raise TypesAssymetricalError(len(types), len(headers))
 
+# Description:
+#   VOID, pulls data from CSV (via data_utils), and enteres into table
+# Params:
+#   user        REQUIRED     STRING      Username of the table owner
+#   tablename   REQUIRED     STRING      Text name of the table being created
+#   data_source REQUIRED     STRING      Text name of file to open
+#   snapshot    OPTIONAL     INTEGER     Epoch int timestamp for data entry day
+#   delim       OPTIONAL     CHAR        Character to spit rows in source data
+# Usage:
+#   load_table("medovicn", "test_real_data",
+#       "sample_data/test_real_data.csv",
+#       snapshot = 123456789, delim="\t")
+def load_table(user, tablename, data_source, **args):
+    snapshot = ""
+    if "snapshot" in args:
+        try:
+            snapshot = int(args["snapshot"])
+        except ValueError:
+            raise TimeNotEpochError(args["snapshot"])
+    else:
+        snapshot = int(time.time())
+    delimeter = ","
+    if "delim" in args:
+        delimeter = args["delim"]
+    new_table_contents = table_utils.get_data_from_csv(
+        data_source,
+        preserve_headers = False,
+        delim = delim
+    )
+    if len(new_table_contents) == 0:
+        raise FileEmptyError(data_source)
+    with open(f"./{user}/{tablename}/data.csv", "a") as f_out:
+        for row in new_table_contents["data"]:
+            temp_s = ",".join(row)
+            temp_s += f",{snapshot}"
+    print("Data load complete!")
+
+# IMPLEMENT
+def load_table_cli(**args):
+    pass
 
 
-    
-'''
-    TODO:
-        Write in header import by file and by typing (first)
-'''
+
+
