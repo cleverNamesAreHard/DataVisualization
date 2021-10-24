@@ -167,23 +167,20 @@ def load_table(user, tablename, data_source, **args):
     delimeter = ","
     if "delim" in args:
         delimeter = args["delim"]
-    new_table_contents = table_utils.get_data_from_csv(
+    new_table_contents = data_utils.get_data_from_csv(
         data_source,
         preserve_headers = False,
-        delim = delim
+        delim = delimeter
     )
     if len(new_table_contents) == 0:
         raise FileEmptyError(data_source)
     with open(f"./{user}/{tablename}/data.csv", "a") as f_out:
         for row in new_table_contents["data"]:
             temp_s = ",".join(row)
-            temp_s += f",{snapshot}"
+            temp_s += f",{snapshot}\n"
+            f_out.write(temp_s)
     print("Data load complete!")
 
 # IMPLEMENT
 def load_table_cli(**args):
     pass
-
-
-
-

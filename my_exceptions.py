@@ -82,3 +82,24 @@ class TypesAssymetricalError(Exception):
 
     def __str__(self):
         return self.message
+
+
+class TimeNotEpochError(Exception):
+    def __init__(self, snapshot):
+        self.snapshot = snapshot
+        self.message = f"Valid Types Are: {snapshot}"
+        super().__init__(self.message)
+
+    def __str__(self):
+        return f"{self.snapshot} -> {self.message}"
+
+'''
+class FileEmptyError(Exception):
+    def __init__(self, snapshot):
+        self.snapshot = snapshot
+        self.message = f"Valid Types Are: {snapshot}"
+        super().__init__(self.message)
+
+    def __str__(self):
+        return f"{self.snapshot} -> {self.message}"'''
+        
