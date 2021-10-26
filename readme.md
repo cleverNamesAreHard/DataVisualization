@@ -50,9 +50,9 @@ Table Created!
 
 # > 3
 Enter the owner of the table:
-> medovicn
+> testuser
 Enter the name of the table:
-> audit_data
+> demographic_info
 Enter the delimeter to split on:
 > ,
 Enter the path to the file to load:
