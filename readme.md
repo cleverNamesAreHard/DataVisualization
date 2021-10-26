@@ -27,19 +27,19 @@ Please enter your comma-separated headers:
 
 Valid types are TEXT, BOOLEAN, INTEGER, DECIMAL
 Please enter the type for the following header:
-received_by > text
+name > text
 
 Valid types are TEXT, BOOLEAN, INTEGER, DECIMAL
 Please enter the type for the following header:
-manager > integer
+age > integer
 
 Valid types are TEXT, BOOLEAN, INTEGER, DECIMAL
 Please enter the type for the following header:
-shift > decimal
+weight > decimal
 
 Valid types are TEXT, BOOLEAN, INTEGER, DECIMAL
 Please enter the type for the following header:
-receive_date > boolean
+enrolled > boolean
 Table Created!	
 ```
 
