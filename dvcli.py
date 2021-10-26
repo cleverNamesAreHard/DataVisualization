@@ -18,6 +18,10 @@ def main(args):
         2: {
             "text": "Create New Table",
             "run_": table_utils.create_table_cli
+        },
+        3: {
+            "text": "Load Table From File",
+            "run_": table_utils.load_table_cli
         }
     }
     # Display option list and put indeces into their list

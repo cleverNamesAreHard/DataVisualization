@@ -138,6 +138,7 @@ def create_table_cli(**args):
             else:
                 raise InvalidTypeError(type_.upper())
     types.append("INTEGER")
+    # Create the table if allowed
     if len(types) == len(headers):
         create_table(user, tablename, headers, types=types)
     else:
@@ -153,9 +154,12 @@ def create_table_cli(**args):
 #   delim       OPTIONAL     CHAR        Character to spit rows in source data
 # Usage:
 #   load_table("medovicn", "test_real_data",
-#       "sample_data/test_real_data.csv",
+#       "./sample_data/test_real_data.csv",
 #       snapshot = 123456789, delim="\t")
 def load_table(user, tablename, data_source, **args):
+    '''
+        Implement Error Catching for User, tablename, etc
+    '''
     snapshot = ""
     if "snapshot" in args:
         try:
@@ -181,6 +185,35 @@ def load_table(user, tablename, data_source, **args):
             f_out.write(temp_s)
     print("Data load complete!")
 
-# IMPLEMENT
+# Description:
+#   VOID, used to get and sanitize user input via CLI, and pass to
+#   create_table()
 def load_table_cli(**args):
-    pass
+    if "testSnapshot" in args:
+        try:
+            snapshot = int(args["testSnapshot"])
+        except ValueError:
+            raise TimeNotEpochError(args["testSnapshot"])
+    else:
+        snapshot = int(time.time())
+    user = ""
+    if "testUser" in args:
+        user = args["testUser"]
+    else:
+        user = input("Enter the owner of the table:\n> ")
+    tablename = ""
+    if "testTable" in args:
+        tablename = args["testTable"]
+    else:
+        tablename = input("Enter the name of the table:\n> ")
+    delimeter = ","
+    if "testDelim" in args:
+        delimeter = args["testDelim"]
+    else:
+        delimeter = input("Enter the delimeter to split on:\n> ")
+    table_location = ""
+    if "testLocation" in args:
+        data_location = args["testLocation"]
+    else:
+        data_location = input("Enter the path to the file to load:\n> ")
+    load_table(user, tablename, data_location, delim=delimeter)
