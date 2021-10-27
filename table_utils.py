@@ -217,3 +217,14 @@ def load_table_cli(**args):
     else:
         data_location = input("Enter the path to the file to load:\n> ")
     load_table(user, tablename, data_location, delim=delimeter)
+
+def get_table_len(username, tablename):
+    if not user_utils.user_is_onboarded(username):
+        raise OwnerNotOnboardedError(username)
+    if not table_exists(username, tablename):
+        raise TableDoesNotExistError(tablename)
+    file_len = sum(1 for line in open("./{}/{}/data.csv".format(
+        username, tablename
+    )))
+    # don't count headers
+    return file_len - 1

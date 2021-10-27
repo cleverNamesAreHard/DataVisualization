@@ -17,6 +17,15 @@ class TableAlreadyExistsError(Exception):
     def __str__(self):
         return f"{self.tablename} -> {self.message}"
 
+class TableDoesNotExistError(Exception):
+    def __init__(self, tablename, message="Table does not exist"):
+        self.tablename = tablename
+        self.message = message
+        super().__init__(self.message)
+
+    def __str__(self):
+        return f"{self.tablename} -> {self.message}"
+
 
 class OwnerAlreadyOnboardedError(Exception):
     def __init__(self, owner, message="User already onboarded"):
